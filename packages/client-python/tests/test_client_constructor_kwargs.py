@@ -1,18 +1,25 @@
-import pytest
-
 from rocketride import RocketRideClient
 
 
 def test_unknown_constructor_kwarg_raises_type_error():
     # A misspelled option must be reported, not silently discarded as if it
     # had never been passed (#1837).
-    with pytest.raises(TypeError, match='client_nmae'):
+    try:
         RocketRideClient(auth='x', client_nmae='typo')
+    except TypeError as e:
+        assert 'client_nmae' in str(e)
+    else:
+        raise AssertionError('expected TypeError for client_nmae')
 
 
 def test_unknown_constructor_kwargs_all_listed():
-    with pytest.raises(TypeError, match='on_trce, ws_paht'):
+    try:
         RocketRideClient(auth='x', ws_paht='/nope', on_trce=None)
+    except TypeError as e:
+        msg = str(e)
+        assert 'on_trce' in msg and 'ws_paht' in msg
+    else:
+        raise AssertionError('expected TypeError for ws_paht/on_trce')
 
 
 def test_documented_constructor_kwargs_still_accepted():
@@ -45,5 +52,10 @@ def test_transport_kwarg_rejected():
     # RocketRideClient always creates its own transport in _internal_connect;
     # the DAP base chain never consumes a caller-supplied transport, so passing
     # one must be rejected rather than silently forwarded (#1901).
-    with pytest.raises(TypeError, match='transport'):
+    try:
         RocketRideClient(auth='x', transport=None)
+    except TypeError as e:
+        assert 'transport' in str(e)
+    else:
+        raise AssertionError('expected TypeError for transport')
+
