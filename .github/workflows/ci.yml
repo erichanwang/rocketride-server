@@ -217,7 +217,7 @@ jobs:
         # ruff release can't turn develop red on untouched files; bump
         # deliberately, run the formatter, review the diff (#1876).
         with:
-          version: "0.16.2"
+          version: "0.16.5"
       - run: ruff check
       - run: ruff format --check
 
