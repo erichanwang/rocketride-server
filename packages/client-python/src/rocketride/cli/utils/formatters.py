@@ -173,7 +173,7 @@ def truncate_filename(filename: str, max_length: int) -> str:
         ```python
         # Truncate for display
         short = truncate_filename('very_long_document_name.pdf', 20)
-        # Result: "very_long_docu....pdf"
+        # Result: "very_long_doc....pdf"
 
         # Handle very long extensions
         short = truncate_filename('file.very_long_extension', 15)
